@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
+import { addUser } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -62,7 +65,10 @@ class Login extends React.Component {
 
   // acao ao clicar em entrar
   onClickEntrar = () => {
-
+    const { dispatch, history } = this.props;
+    const { email } = this.state;
+    dispatch(addUser(email));
+    history.push('/carteira');
   };
 
   render() {
@@ -85,7 +91,7 @@ class Login extends React.Component {
         />
         <button
           disabled={ this.btnDisable() }
-          // onClick={}
+          onClick={ this.onClickEntrar }
         >
           Entrar
         </button>
@@ -94,4 +100,9 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: propTypes.func.isRequired,
+  history: propTypes.func.isRequired,
+};
+
+export default connect()(Login);
