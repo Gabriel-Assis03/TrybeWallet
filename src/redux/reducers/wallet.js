@@ -21,6 +21,13 @@ function walletReducer(state = initialState, action) {
       ...state,
       currencies: action.coins,
     };
+  case 'SAVE_DATA':
+    const id = state.expenses.length;
+    console.log(id);
+    return {
+      ...state,
+      expenses: action.data,
+    };
   default:
     return state;
   }
