@@ -33,10 +33,20 @@ class WalletForm extends Component {
     const { dispatch, expenses } = this.props;
     const data = [...expenses, this.state];
     dispatch(thunkSave(data));
+    this.setState((prev) => ({
+      ...prev,
+      id: '',
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    }));
   };
 
   render() {
     const { coins } = this.props;
+    const { value, description } = this.state;
     const method = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const tag = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
     return (
@@ -50,6 +60,7 @@ class WalletForm extends Component {
             placeholder="0"
             onChange={ this.handleChange }
             name="value"
+            value={ value }
           />
         </label>
         <label>
@@ -94,6 +105,7 @@ class WalletForm extends Component {
             placeholder=""
             name="description"
             onChange={ this.handleChange }
+            value={ description }
           />
         </label>
         <button onClick={ this.saveBtn }>Adicionar despesa</button>

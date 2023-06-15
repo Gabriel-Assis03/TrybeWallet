@@ -3,14 +3,31 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Header extends Component {
+  calculatingExpense = (expenses) => {
+    // ve se tem alguma divida no estado global
+    if (expenses.length === 0) {
+      return '0.00';
+    }
+    // se tiver calcula o valor de todas elas
+    return expenses.reduce((acc, ex) => {
+      // transforma o valor em real
+      const coin = ex.currency;// pega a moeda, USD, EUR, etc
+      const coinValue = ex.exchangeRates[coin].ask;// pega o valor da moeda no momento que a divida foi criada da divida
+      return Number(acc) + Number(ex.value * coinValue);
+    }, 0).toFixed(2);
+  };
+
   render() {
-    const { email } = this.props;
-    const despesa = '0.00';
+    const { email, expenses } = this.props;
+    const despesa = this.calculatingExpense(expenses);
     const cambio = 'BRL';
     return (
       <div>
         <p data-testid="email-field">{ email }</p>
-        <p data-testid="total-field">{`Despesa total: R$ ${despesa}`}</p>
+        <label>
+          {'Despesa total: R$ '}
+          <p data-testid="total-field">{despesa}</p>
+        </label>
         <p data-testid="header-currency-field">{cambio}</p>
       </div>
     );
@@ -19,10 +36,12 @@ class Header extends Component {
 
 Header.propTypes = {
   email: propTypes.string.isRequired,
+  expenses: propTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(Header);
