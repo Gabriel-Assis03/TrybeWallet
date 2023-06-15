@@ -30,7 +30,7 @@ class WalletForm extends Component {
   };
 
   saveBtn = () => {
-    const { dispatch, expenses } = this.props;
+    const { dispatch, expenses, ali } = this.props;
     const data = [...expenses, this.state];
     dispatch(thunkSave(data));
     this.setState((prev) => ({
@@ -40,15 +40,15 @@ class WalletForm extends Component {
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
-      tag: 'Alimentação',
+      tag: ali,
     }));
   };
 
   render() {
-    const { coins } = this.props;
+    const { coins, ali } = this.props;
     const { value, description } = this.state;
     const method = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
-    const tag = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
+    const tag1 = [ali, 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
     return (
       <div>
         <label>
@@ -93,7 +93,7 @@ class WalletForm extends Component {
             name="tag"
             onChange={ this.handleChange }
           >
-            { tag.map((v) => <Option value={ v } key={ v } />)}
+            { tag1.map((v) => <Option value={ v } key={ v } />)}
           </select>
         </label>
         <label>
@@ -118,11 +118,13 @@ WalletForm.propTypes = {
   coins: propTypes.string.isRequired,
   dispatch: propTypes.func.isRequired,
   expenses: propTypes.string.isRequired,
+  ali: propTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   coins: state.wallet.currencies,
   expenses: state.wallet.expenses,
+  ali: 'Alimentação',
 });
 
 export default connect(mapStateToProps)(WalletForm);
