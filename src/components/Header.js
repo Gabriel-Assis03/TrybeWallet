@@ -18,7 +18,7 @@ class Header extends Component {
   };
 
   render() {
-    const { email, expenses } = this.props;
+    const { email, expenses, loading } = this.props;
     const despesa = this.calculatingExpense(expenses);
     const cambio = 'BRL';
     return (
@@ -26,7 +26,11 @@ class Header extends Component {
         <p data-testid="email-field">{ email }</p>
         <label>
           {'Despesa total: R$ '}
-          <p data-testid="total-field">{despesa}</p>
+          {
+            loading
+              ? <p data-testid="total-field">{despesa}</p>
+              : <p>Carregando...</p>
+          }
         </label>
         <p data-testid="header-currency-field">{cambio}</p>
       </div>
@@ -37,11 +41,13 @@ class Header extends Component {
 Header.propTypes = {
   email: propTypes.string.isRequired,
   expenses: propTypes.string.isRequired,
+  loading: propTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
   expenses: state.wallet.expenses,
+  loading: state.wallet.loading,
 });
 
 export default connect(mapStateToProps)(Header);

@@ -12,6 +12,7 @@ const initialState = {
   expenses: [], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
   editor: false, // valor booleano que indica de uma despesa está sendo editada
   idToEdit: 0, // valor numérico que armazena o id da despesa que esta sendo editada
+  loading: true,
 };
 
 function walletReducer(state = initialState, action) {
@@ -25,6 +26,16 @@ function walletReducer(state = initialState, action) {
     return {
       ...state,
       expenses: action.data,
+    };
+  case 'LOADING_TRUE':
+    return {
+      ...state,
+      loading: true,
+    };
+  case 'LOADING_FALSE':
+    return {
+      ...state,
+      loading: false,
     };
   default:
     return state;

@@ -15,6 +15,14 @@ export const saveData = (data) => (
   { type: 'SAVE_DATA', data }
 );
 
+export const loadingTrue = () => (
+  { type: 'LOADING_TRUE' }
+);
+
+export const loadingFalse = () => (
+  { type: 'LOADING_FALSE' }
+);
+
 export function thunkCurrencies() {
   return async (dispatch) => {
     try {

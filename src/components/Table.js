@@ -1,11 +1,35 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { saveData, loadingFalse, loadingTrue } from '../redux/actions';
 import Tr from './Tr';
 
 class Table extends Component {
+  state = {
+    loading: true,
+  };
+
+  deletElement = (id) => {
+    const { expenses, dispatch } = this.props;
+    dispatch(loadingFalse());
+    this.setState((prev) => ({
+      ...prev,
+      loading: false,
+    }));
+    const element = expenses.find((e) => e.id === id);
+    const index = expenses.indexOf(element);
+    expenses.splice(index, 1);
+    dispatch(saveData(expenses));
+    this.setState((prev) => ({
+      ...prev,
+      loading: true,
+    }));
+    dispatch(loadingTrue());
+  };
+
   render() {
     const { expenses } = this.props;
+    const { loading } = this.state;
     return (
       <div>
         <table>
@@ -21,7 +45,14 @@ class Table extends Component {
             <th>Editar/Excluir</th>
           </tr>
           {
-            expenses.map((e) => <Tr element={ e } key={ e.id } />)
+            loading
+              ? expenses.map((e) => (
+                <Tr
+                  element={ e }
+                  key={ e.id }
+                  deletFunc={ this.deletElement }
+                />
+              )) : <p>Carregando...</p>
           }
         </table>
       </div>
@@ -30,6 +61,7 @@ class Table extends Component {
 }
 
 Table.propTypes = {
+  dispatch: propTypes.func.isRequired,
   expenses: propTypes.string.isRequired,
 };
 

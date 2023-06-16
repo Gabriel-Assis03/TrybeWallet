@@ -6,7 +6,7 @@ import { thunkCurrencies, thunkSave } from '../redux/actions';
 
 class WalletForm extends Component {
   state = {
-    id: '',
+    id: 0,
     value: '',
     description: '',
     currency: 'USD',
@@ -20,12 +20,11 @@ class WalletForm extends Component {
   }
 
   handleChange = ({ target }) => {
-    const { expenses } = this.props;
+    // const { expenses } = this.props;
     const { value, name } = target;
     this.setState((prev) => ({
       ...prev,
       [name]: value,
-      id: expenses.length,
     }));
   };
 
@@ -35,7 +34,7 @@ class WalletForm extends Component {
     dispatch(thunkSave(data));
     this.setState((prev) => ({
       ...prev,
-      id: '',
+      id: Number(prev.id) + 1,
       value: '',
       description: '',
       currency: 'USD',
