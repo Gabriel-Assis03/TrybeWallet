@@ -33,27 +33,31 @@ class Table extends Component {
     return (
       <div>
         <table>
-          <tr>
-            <th>Descrição</th>
-            <th>Tag</th>
-            <th>Método de pagamento</th>
-            <th>Valor</th>
-            <th>Moeda</th>
-            <th>Câmbio utilizado</th>
-            <th>Valor convertido</th>
-            <th>Moeda de conversão</th>
-            <th>Editar/Excluir</th>
-          </tr>
-          {
-            loading
-              ? expenses.map((e) => (
-                <Tr
-                  element={ e }
-                  key={ e.id }
-                  deletFunc={ this.deletElement }
-                />
-              )) : <p>Carregando...</p>
-          }
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              loading
+                ? expenses.map((e) => (
+                  <Tr
+                    element={ e }
+                    key={ e.id }
+                    deletFunc={ this.deletElement }
+                  />
+                )) : <p>Carregando...</p>
+            }
+          </tbody>
         </table>
       </div>
     );
